@@ -6,6 +6,7 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">{{ __('Dashboard') }}</div>
+                <a class="card-header" href="{{ route('profile.show') }}">My Profile</a>
 
                 <div class="card-body">
                     @if (session('status'))
