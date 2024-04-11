@@ -5,49 +5,43 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ __('Create New Project') }}</div>
+                <div class="card-header">{{ isset($project) ? 'Edit Project' : 'Create Project' }}</div>
                 <div class="card-body">
-                    <form method="POST" action="{{ route('projects.store') }}">
+                    <form method="POST" action="{{ isset($project) ? route('projects.update', $project->id) : route('projects.store') }}">
                         @csrf
-
+                        @if(isset($project))
+                            @method('PUT')
+                        @endif
                         <div class="form-group">
-                            <label for="naziv_projekta">{{ __('Project Name') }}</label>
-                            <input id="naziv_projekta" type="text" class="form-control @error('naziv_projekta') is-invalid @enderror" name="naziv_projekta" value="{{ old('naziv_projekta') }}" required autofocus>
-                            @error('naziv_projekta')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
-                            <label for="opis_projekta">{{ __('Description') }}</label>
-                            <input id="opis_projekta" type="text" class="form-control @error('opis_projekta') is-invalid @enderror" name="opis_projekta" value="{{ old('opis_projekta') }}" required autofocus>
-                            @error('opis_projekta')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
-                            <label for="cijena_projekta">{{ __('Price') }}</label>
-                            <input id="cijena_projekta" type="number" class="form-control @error('cijena_projekta') is-invalid @enderror" name="cijena_projekta" value="{{ old('cijena_projekta') }}" required autofocus>
-                            @error('cijena_projekta')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
-                            <label for="datum_pocetka">{{ __('Start Date') }}</label>
-                            <input id="datum_pocetka" type="date" class="form-control @error('datum_pocetka') is-invalid @enderror" name="datum_pocetka" value="{{ old('datum_pocetka') }}" required autofocus>
-                            @error('datum_pocetka')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
-                            <label for="datum_zavrsetka">{{ __('End Date') }}</label>
-                            <input id="datum_zavrsetka" type="date" class="form-control @error('datum_zavrsetka') is-invalid @enderror" name="datum_zavrsetka" value="{{ old('datum_zavrsetka') }}" required autofocus>
-                            @error('datum_zavrsetka')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
+                            <label for="naziv_projekta">Project Name</label>
+                            <input type="text" class="form-control" id="naziv_projekta" name="naziv_projekta" value="{{ isset($project) ? $project->naziv_projekta : '' }}">
                         </div>
-                        <button type="submit" class="btn btn-primary">{{ __('Create Project') }}</button>
+                        <div class="form-group">
+                            <label for="opis_projekta">Project Description</label>
+                            <textarea class="form-control" id="opis_projekta" name="opis_projekta">{{ isset($project) ? $project->opis_projekta : '' }}</textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="cijena_projekta">Project Price</label>
+                            <input type="number" class="form-control" id="cijena_projekta" name="cijena_projekta" value="{{ isset($project) ? $project->cijena_projekta : '' }}">
+                        </div>
+                        <div class="form-group">
+                            <label for="datum_pocetka">Start Date</label>
+                            <input type="date" class="form-control" id="datum_pocetka" name="datum_pocetka" value="{{ isset($project) ? $project->datum_pocetka : '' }}">
+                        </div>
+                        <div class="form-group">
+                            <label for="datum_zavrsetka">End Date</label>
+                            <input type="date" class="form-control" id="datum_zavrsetka" name="datum_zavrsetka" value="{{ isset($project) ? $project->datum_zavrsetka : '' }}">
+                        </div>
+                        <div class="form-group">
+                            <label for="users">Select Users</label>
+                            <select class="form-control" id="users" name="users[]" multiple>
+                                @foreach($availableUsers as $user)
+                                    <option value="{{ $user->id }}">{{ $user->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary">{{ isset($project) ? 'Update Project' : 'Create Project' }}</button>
+                        <a href="{{ route('profile.show') }}" class="btn btn-secondary">Back to Profile</a>
                     </form>
                 </div>
             </div>

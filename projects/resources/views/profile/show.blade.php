@@ -14,7 +14,10 @@
                     @else
                         <ul class="card-item">
                             @foreach($ownedProjects as $project)
-                                <li>{{ $project->naziv_projekta }}</li>
+                                <li>
+                                    {{ $project->naziv_projekta }}
+                                    <a href="{{ route('projects.show', $project->id) }}" class="btn btn-primary btn-sm">View</a>
+                                </li>
                             @endforeach
                         </ul>
                     @endif
@@ -26,7 +29,9 @@
                     @else
                         <ul>
                             @foreach($teamProjects as $project)
-                                <li>{{ $project->naziv_projekta }}</li>
+                                <li>{{ $project->naziv_projekta }}
+                                <a href="{{ route('projects.show', $project->id) }}" class="btn btn-primary btn-sm">View</a>
+                                </li>
                             @endforeach
                         </ul>
                     @endif
